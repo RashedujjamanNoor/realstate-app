@@ -2,6 +2,33 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const Contact = () => {
+  const [result, setResult] = React.useState("");
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("");
+      alert("Form Submitted Successfully");
+      event.target.reset();
+    } else {
+      console.log("Error", data);
+      alert(data.message);
+      setResult("");
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -200 }}
@@ -21,7 +48,10 @@ const Contact = () => {
         Ready to Make a Move? Let's Build your Future Together
       </p>
 
-      <form action="" className="max-w-2xl mx-auto text-gray-600 pt-8">
+      <form
+        onSubmit={onsubmit}
+        className="max-w-2xl mx-auto text-gray-600 pt-8"
+      >
         <div className="flex flex-wrap">
           <div className="w-full md:w-1/2 text-left">
             Your Name
@@ -54,7 +84,7 @@ const Contact = () => {
           ></textarea>
         </div>
         <button className="bg-blue-600 text-white py-2 px-12 mb-10 rounded">
-          Send Message
+          {result ? result : "Send Message"}
         </button>
       </form>
     </motion.div>
