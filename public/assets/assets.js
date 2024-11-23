@@ -1,4 +1,4 @@
-import logo from "/assets/logo.svg";
+import logo from "";
 import logo_dark from "/assets/logo_dark.svg";
 import cross_icon from "/assets/cross_icon.svg";
 import menu_icon from "/assets/menu_icon.svg";
